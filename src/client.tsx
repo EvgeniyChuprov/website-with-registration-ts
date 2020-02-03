@@ -1,54 +1,13 @@
-import 'reflect-metadata';
-import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { configureApp } from 'core/configureApp';
-import { Bootstrapper } from 'shared/helpers/bootstrap';
-import { App } from 'core/App';
-import { getEnvParams } from 'core/getEnvParams';
+import { AppPage } from 'core/App/index';
 
-const { appVersion } = getEnvParams();
+import { Firebase, FirebaseContext } from './services/Firebase';
 
-const appData = configureApp();
-
-async function main() {
-  await waitForAsyncTasksToComplete();
-  const app = <App {...appData} />;
-  render(app);
-}
-
-async function waitForAsyncTasksToComplete() {
-  const appForBootstrap = <App {...appData} />;
-  const bootstrapper = new Bootstrapper(appForBootstrap, appData.store);
-  await bootstrapper.waitJobsCompletion();
-}
-
-/* Start application */
-main();
-
-/* Hot Module Replacement API */
-if ((module as any).hot && process.env.NODE_ENV !== 'production') {
-  (module as any).hot.accept(['./core/App', './core/configureApp'], () => {
-    const nextConfigureApp: typeof configureApp = require('./core/configureApp').default; // eslint-disable-line global-require
-    const NextApp: typeof App = require('./core/App').App; // eslint-disable-line global-require
-    const nextAppData = nextConfigureApp(appData);
-    render(<NextApp {...nextAppData} />);
-  });
-}
-
-function render(component: React.ReactElement<any>) {
-  ReactDOM.hydrate(
-    component,
-    document.getElementById('root'),
-    () => {
-      // https://material-ui.com/guides/server-rendering/#the-client-side
-      const jssStyles = document.querySelector('#jss-server-side');
-      if (jssStyles && jssStyles.parentNode) {
-        jssStyles.parentNode.removeChild(jssStyles);
-      }
-    },
-  );
-}
-
-console.info(`%cApp version: ${appVersion}`, 'background: #EBF5F8; color: gray; font-size: x-medium; border-radius: 5px; padding: 5px;');
+ReactDOM.hydrate(
+  <FirebaseContext.Provider value={new Firebase()}>
+    <AppPage />
+  </FirebaseContext.Provider>,
+  document.getElementById('root'),
+);
