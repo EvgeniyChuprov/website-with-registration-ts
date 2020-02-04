@@ -4,13 +4,15 @@ import { AuthUserContext } from './context';
 import { withFirebase } from '../Firebase';
 
 interface IState {
-  authUser: null;
+  authUser: {} | null ;
 }
 
 interface IProps {
   firebase: {
     auth: firebase.auth.Auth;
-  }
+    user: (x: string) => firebase.database.Reference;
+    onAuthUserListener(a: (a: {}) => void, b: () => void): void;
+  },
 }
 
 const withAuthentication = (Component: any) => {
@@ -18,16 +20,19 @@ const withAuthentication = (Component: any) => {
     listener: any;
 
     public state: IState = {
-      authUser: null,
+      authUser: JSON.parse(localStorage.getItem('authUser')),
     };
 
     componentDidMount() {
       const { firebase } = this.props;
-      this.listener = firebase.auth.onAuthStateChanged(
+      this.listener = firebase.onAuthUserListener(
         authUser => {
-          authUser
-            ? this.setState({ authUser })
-            : this.setState({ authUser: null });
+          localStorage.setItem('authUser', JSON.stringify(authUser));
+          this.setState({ authUser });
+        },
+        () => {
+          localStorage.removeItem('authUser');
+          this.setState({ authUser: null });
         },
       );
     }

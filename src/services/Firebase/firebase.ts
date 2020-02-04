@@ -18,11 +18,13 @@ const config = {
 class Firebase {
   auth: firebase.auth.Auth;
   db: firebase.database.Database;
+  googleProvider: any;
 
   constructor() {
     app.initializeApp(config);
     this.auth = app.auth();
     this.db = app.database();
+    this.googleProvider = new app.auth.GoogleAuthProvider();
   }
 
   doCreateUserWithEmailAndPassword = (email: string, password: string):
@@ -31,6 +33,9 @@ class Firebase {
 
   doSignInWithEmailAndPassword = (email: string, password: string) =>
     this.auth.signInWithEmailAndPassword(email, password);
+
+  doSignInWithGoogle = () =>
+    this.auth.signInWithPopup(this.googleProvider);
 
   doSignOut = () => this.auth.signOut();
 
@@ -42,5 +47,30 @@ class Firebase {
   user = (uid: string) => this.db.ref(`users/${uid}`);
 
   users = () => this.db.ref('users');
+
+  // *** Merge Auth and DB User API *** //
+  onAuthUserListener = (next: (x: app.User | null) => void, fallback: () => void) =>
+    this.auth.onAuthStateChanged(authUser => {
+      if (authUser) {
+        this.user(authUser.uid)
+          .once('value')
+          .then(snapshot => {
+            const dbUser = snapshot.val();
+            // default empty roles
+            if (!dbUser.roles) {
+              dbUser.roles = {};
+            }
+            // merge auth and db user
+            authUser = {
+              uid: authUser && authUser.uid,
+              email: authUser && authUser.email,
+              ...dbUser,
+            };
+            next(authUser);
+          });
+      } else {
+        fallback();
+      }
+    });
 }
 export { Firebase };

@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import { SignUpLink } from '../SignUp';
 import { PasswordForgetLink } from '../../features/PasswordForget';
+import { SignInGoogleBase } from './SignInGoogleBase';
 import { withFirebase } from '../../services/Firebase';
 import * as ROUTES from '../../constants/routes';
 
@@ -24,6 +25,7 @@ const SignIn = () => (
   <div>
     <h1>SignIn</h1>
     <SignInForm />
+    <SignInGoogle />
     <PasswordForgetLink />
     <SignUpLink />
   </div>
@@ -86,7 +88,11 @@ class SignInFormBase extends React.Component<IProps> {
     this.setState({ [event.target.name]: event.target.value });
   };
 }
-
+const SignInGoogle = withRouter(withFirebase(SignInGoogleBase));
+// const SignInGoogle = compose(
+//   withRouter,
+//   withFirebase,
+// )(SignInGoogleBase);
 const SignInForm = withRouter(withFirebase(SignInFormBase));
 
-export { SignIn, SignInForm };
+export { SignIn, SignInForm, SignInGoogle };
