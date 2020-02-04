@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { withFirebase } from '../../services/Firebase';
+// import { withAuthorization } from '../../services/Session';
+// import * as ROLES from '../../constants/roles';
 
 interface IProps {
   firebase: {
@@ -54,7 +56,9 @@ class AdminPage extends React.Component<IProps> {
     return (
       <div>
         <h1>Admin</h1>
-
+        <p>
+          The Admin Page is accessible by every signed in admin user.
+        </p>
         {loading && <div>Loading ...</div>}
 
         <UserList users={users} />
@@ -88,6 +92,16 @@ const UserList = ({ users }: {users: any}) => (
   </ul>
 );
 
+// // const condition = (authUser: {} | null) =>
+// //   authUser && !!authUser.roles[ROLES.ADMIN];
+// const condition = (authUser: any) =>
+//   authUser && authUser.roles.includes(ROLES.ADMIN);
+//   console.log(1234, withAuthorization(withFirebase(AdminPage)))
+// // const Admin = withAuthorization(condition, withFirebase(AdminPage));
+
+// const Admin = withAuthorization(condition(withFirebase(AdminPage)))(AdminPage);
+
+// const Admin = withAuthorization(condition, withFirebase(AdminPage));
 const Admin = withFirebase(AdminPage);
 
 export { Admin };

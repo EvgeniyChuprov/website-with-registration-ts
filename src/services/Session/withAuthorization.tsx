@@ -8,6 +8,8 @@ import * as ROUTES from '../../constants/routes';
 interface IProps {
   firebase: {
     auth: firebase.auth.Auth;
+    user: (x: string) => firebase.database.Reference;
+    onAuthUserListener(a: (a: {}) => void, b: () => void): void;
   },
   history: {
     push: (arg: string) => void
@@ -21,12 +23,13 @@ const withAuthorization = (condition: ((x: {}|null) => boolean)) => (Component: 
 
     componentDidMount() {
       const { firebase, history } = this.props;
-      this.listener = firebase.auth.onAuthStateChanged(
+      this.listener = firebase.onAuthUserListener(
         authUser => {
           if (!condition(authUser)) {
             history.push(ROUTES.SIGN_IN);
           }
         },
+        () => history.push(ROUTES.SIGN_IN),
       );
     }
 

@@ -3,6 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 
 import { withFirebase } from '../../services/Firebase';
 import * as ROUTES from '../../constants/routes';
+import * as ROLES from '../../constants/roles';
 
 
 const SignUp = () => (
@@ -17,6 +18,7 @@ const INITIAL_STATE = {
   email: '',
   passwordOne: '',
   passwordTwo: '',
+  isAdmin: false,
   error: null,
 };
 
@@ -25,6 +27,7 @@ interface IState {
   email: string,
   passwordOne: string,
   passwordTwo: string,
+  isAdmin: boolean,
   error: { message: () => void } | null,
 }
 
@@ -39,18 +42,23 @@ interface IProps {
   },
 }
 
+interface IRoles {
+  [ROLES.ADMIN]: string | null;
+}
+
 class SignUpFormBase extends React.Component<IProps> {
   public state: IState = {
     username: '',
     email: '',
     passwordOne: '',
     passwordTwo: '',
+    isAdmin: false,
     error: null,
   };
 
   render() {
     const { username, email, passwordOne,
-      passwordTwo, error } = this.state;
+      passwordTwo, error, isAdmin } = this.state;
 
     const isInvalid = passwordOne
       !== passwordTwo
@@ -88,25 +96,47 @@ class SignUpFormBase extends React.Component<IProps> {
           type="password"
           placeholder="Confirm Password"
         />
+        <label htmlFor="admin">
+          Admin:
+          <input
+            id="admin"
+            name="isAdmin"
+            type="checkbox"
+            checked={isAdmin}
+            onChange={this.onChangeCheckbox}
+          />
+        </label>
         <button disabled={isInvalid} type="submit">Sign Up</button>
         {error && <p>{error.message}</p>}
       </form>
     );
   }
 
+  onChangeCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ [event.target.name]: event.target.checked });
+  };
+
   onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const { firebase } = this.props;
-    const { username, email, passwordOne } = this.state;
+    const { username, email, passwordOne, isAdmin } = this.state;
+    const roles: IRoles = {
+      [ROLES.ADMIN]: null,
+    };
+
+    if (isAdmin) {
+      roles[ROLES.ADMIN] = ROLES.ADMIN;
+    }
 
     firebase.doCreateUserWithEmailAndPassword(email, passwordOne)
-      .then(authUser => {
+      .then(authUser => (
         // Create a user in your Firebase realtime database
-        return firebase.user(authUser.user && authUser.user.uid)
+        firebase.user(authUser.user && authUser.user.uid)
           .set({
             username,
             email,
-          });
-      }).then(() => {
+            roles,
+          })
+      )).then(() => {
         this.setState({ ...INITIAL_STATE });
         this.props.history.push(ROUTES.HOME);
       }).catch(error => {
