@@ -15,6 +15,7 @@ interface IState {
 
 interface IProps {
   authorized: boolean,
+  photoURL: string,
   email: string,
   changeAuthorized: (x: {}) => {},
   history: {
@@ -65,9 +66,20 @@ class SingIn extends React.Component<IProps> {
           <button type="submit">Войти</button>
           {error && <p>{error.message}</p>}
         </form>
+        <div>
+          <p>Забыли пароль?</p>
+          <button type="button" onClick={this.resetPassword}>
+            Сброс пароля
+          </button>
+        </div>
       </div>
     );
   }
+
+  resetPassword = () => {
+    const { history } = this.props;
+    history.push(ROUTES.RESET);
+  };
 
   onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ [event.target.name]: event.target.value });
@@ -77,24 +89,26 @@ class SingIn extends React.Component<IProps> {
     const { history } = this.props;
     const { password, email } = this.state;
     firebaseApp.auth().signInWithEmailAndPassword(email, password)
-    // .then(() => {
-      // history.push(ROUTES.HOME);
-    // })
-    .catch(error => {
-      this.setState({ error });
-    });
+      .then(() => {
+        history.push(ROUTES.HOME);
+        this.setState({ error: '' });
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
 
     event.preventDefault();
   };
 }
 
 const putStateToProps = (state: any) => {
-  const { email, authorized, error, password } = state;
+  const { email, authorized, error, password, photoURL } = state;
   return {
     email,
     authorized,
     error,
     password,
+    photoURL,
   };
 };
 

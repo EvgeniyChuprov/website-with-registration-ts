@@ -7,12 +7,22 @@ interface IinitialState {
   authorized: boolean;
   email: string,
   password: string,
+  displayName: string,
+  photoURL: string,
+  emailVerified: string,
+  phoneNumber: number | null,
+  isAnonymous: boolean,
 }
 
 const initialState: IinitialState = {
   authorized: false,
   email: '',
   password: '',
+  displayName: '',
+  photoURL: '',
+  emailVerified: '',
+  phoneNumber: null,
+  isAnonymous: false,
 };
 
 const changeAuthorized = (newStatusAuthorized: {}) => (
@@ -30,16 +40,16 @@ const changeSingOut = () => (
 );
 
 const rootReducer = (state = initialState, action: any) => {
+  const { payload } = action;
   switch (action.type) {
     case AUTHORIZIRED:
       return {
-        ...state,
-        authorized: action.payload.authorized,
-        email: action.payload.email,
-        password: action.payload.password,
+        ...state, ...payload,
       };
     case SIGNOUT:
-      return action.payload;
+      return {
+        ...state, ...payload,
+      };
     default:
       return state;
   }

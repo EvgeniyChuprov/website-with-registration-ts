@@ -2,25 +2,63 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { changeSingOut } from '../../reducers/store';
-import { firebaseOut } from '../../firebase/checkAuthorization';
+import { changeSingOut, changeAuthorized } from '../../reducers/store';
+import { firebaseOut, checkAuthorization } from '../../firebase/checkAuthorization';
 import { firebaseApp } from '../../firebase/firebase';
 
 interface IProps {
   email: string,
+  photoURL: string,
+  displayName: string,
   history: {
     push: (arg: string) => void
-  }
+  },
+  dispatch: any,
+  changeAuthorized: (x: {}) => {},
+}
+
+interface IState {
+  displayName: string,
+  email: string,
+  password: string,
+  emailError: string | null,
+  passwordError: string | null,
 }
 
 class Home extends React.Component<IProps> {
+  public state: IState = {
+    displayName: '',
+    email: this.props.email,
+    password: '',
+    emailError: null,
+    passwordError: null,
+  }
+
+  componentDidMount() {
+    const { changeAuthorized } = this.props;
+    checkAuthorization(changeAuthorized);
+  }
+
   render() {
-    const { email } = this.props;
+    const { email, displayName, photoURL } = this.props;
+    const { emailError, passwordError } = this.state;
     return (
       <div>
         <h1>Домашнаяя страница</h1>
         <p>Это ваша домашнаяя страница</p>
-        <p>{email}</p>
+        <p>
+          Ваш логин:
+          {email}
+        </p>
+        <p>
+          Ваше имя:
+          {displayName}
+        </p>
+        <p>
+          Ваш аватар
+          <img src={photoURL} alt="аватар" />
+        </p>
+
 
         <form onSubmit={this.onSubmit}>
           <div>
@@ -55,6 +93,7 @@ class Home extends React.Component<IProps> {
                 placeholder="Ваш новый email"
               />
             </label>
+            {emailError && <p>{emailError}</p>}
           </div>
           <div>
             <label>
@@ -66,6 +105,7 @@ class Home extends React.Component<IProps> {
                 placeholder="Введите новый пароль"
               />
             </label>
+            {passwordError && <p>{passwordError}</p>}
           </div>
           <button type="submit">Применить изменения</button>
         </form>
@@ -77,58 +117,78 @@ class Home extends React.Component<IProps> {
   }
 
   onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ [event.target.name]: event.target.value });
+    const { name, value } = event.target;
+    const user = firebaseApp.auth().currentUser;
+    switch (name) {
+      case 'name':
+        user && user.updateProfile({
+          displayName: value,
+        });
+        break;
+      case 'photoURL':
+        user && user.updateProfile({
+          photoURL: value,
+        });
+        break;
+      case 'email':
+        user && user.updateEmail(value).then(() => {
+          // Email sent.
+          this.setState({ emailError: '' });
+        })
+          .catch((error: {message: string}) => {
+            // An error happened.
+            this.setState({ emailError: error.message });
+          });
+        break;
+      case 'password':
+        user && user.updatePassword(value).then(() => {
+          // Email sent.
+          this.setState({ passwordError: '' });
+        })
+          .catch((error: {message: string}) => {
+            // An error happened.
+            this.setState({ passwordError: error.message });
+          });
+        break;
+      default:
+        break;
+    }
   };
 
   onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    const { history } = this.props;
-    const { password, email } = this.state;
-
-    const user = firebaseApp.auth().currentUser;
-    user && user.updateProfile({
-      displayName: 'Jane Q. User',
-    }).catch((error) => {
-      // An error happened.
-      console.log(error);
-    });
-    console.log(user)
+    const { changeAuthorized } = this.props;
+    checkAuthorization(changeAuthorized);
     event.preventDefault();
   };
 
   firebaseOut = () => {
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
     firebaseOut(history);
-  };
-
-  updateUserProfile = () => {
-    const user = firebaseApp.auth().currentUser;
-
-    user.updateProfile({
-      displayName: "Jane Q. User",
-      // photoURL: "https://example.com/jane-q-user/profile.jpg"
-    }).then(function () {
-      // Update successful.
-    }).catch(function (error) {
-      // An error happened.
-    });
+    dispatch(changeSingOut);
   };
 }
 
 const putStateToProps = (state: any) => {
-  const { email, authorized, error, password, displayName } = state;
+  const { email, authorized, error, password, displayName, photoURL } = state;
   return {
+    photoURL,
     email,
     authorized,
     error,
     password,
-    displayName
+    displayName,
   };
 };
 
-const putSignOutToProps = (dispatch: any) => ({
-  changeSingOut: bindActionCreators(changeSingOut, dispatch),
+const putActionsToProps = (dispatch: any) => ({
+  changeAuthorized: bindActionCreators(changeAuthorized, dispatch),
 });
 
-const WrapperHome = connect(putStateToProps, putSignOutToProps)(Home);
+// const putSignOutToProps = (dispatch: any) => ({
+//   changeSingOut: bindActionCreators(changeSingOut, dispatch),
+// });
+
+// const WrapperHome = connect(putStateToProps)(Home);
+const WrapperHome = connect(putStateToProps, putActionsToProps)(Home);
 
 export { WrapperHome };

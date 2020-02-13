@@ -4,8 +4,14 @@ import * as ROUTES from '../constants/routes';
 const checkAuthorization = (changeAuthorized: (x: {}) => {}) => {
   firebaseApp.auth().onAuthStateChanged((user: firebase.User | null) => {
     if (user) {
+      const { displayName, photoURL, emailVerified, phoneNumber, isAnonymous, email } = user;
       changeAuthorized({
-        email: user.email,
+        displayName,
+        photoURL,
+        emailVerified,
+        phoneNumber,
+        isAnonymous,
+        email,
         authorized: true,
       });
     } else {

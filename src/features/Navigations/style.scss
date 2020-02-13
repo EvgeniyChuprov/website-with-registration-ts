@@ -1,0 +1,9 @@
+.navigations {
+  display: flex;
+  list-style-type: none;
+
+  &__element {
+    padding-left: 20px;
+    color: red;
+  }
+}
