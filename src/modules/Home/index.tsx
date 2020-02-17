@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -5,31 +6,42 @@ import { bindActionCreators } from 'redux';
 import { changeSingOut, changeAuthorized } from '../../reducers/store';
 import { firebaseOut, checkAuthorization } from '../../firebase/checkAuthorization';
 import { firebaseApp } from '../../firebase/firebase';
+import { setChangePassword, setChangeEmail, setChangeName, setChangePhotoURL } from '../../reducers/ChangeData/actions';
+import './style.scss';
 
 interface IProps {
   email: string,
   photoURL: string,
-  displayName: string,
+  displayName: string | null,
+  changePassword: string,
+  changeEmail: string,
+  changeName: string | null,
+  changePhotoURL: string,
   history: {
     push: (arg: string) => void
   },
   dispatch: any,
   changeAuthorized: (x: {}) => {},
+  setChangePhotoURL: (x: {}) => {},
+  setChangeName: (x: {}) => {},
+  setChangeEmail: (x: {}) => {},
+  setChangePassword: (x: {}) => {},
+  changeSingOut: () => {}
 }
 
 interface IState {
-  displayName: string,
-  email: string,
-  password: string,
+  // displayName: string,
+  // email: string,
+  password: string | null,
   emailError: string | null,
   passwordError: string | null,
 }
 
 class Home extends React.Component<IProps> {
   public state: IState = {
-    displayName: '',
-    email: this.props.email,
-    password: '',
+    // displayName: '',
+    // email: this.props.email,
+    password: null,
     emailError: null,
     passwordError: null,
   }
@@ -41,114 +53,89 @@ class Home extends React.Component<IProps> {
 
   render() {
     const { email, displayName, photoURL } = this.props;
-    const { emailError, passwordError } = this.state;
+    const { emailError, passwordError, password } = this.state;
     return (
-      <div>
+      <div className="home">
         <h1>Домашнаяя страница</h1>
-        <p>Это ваша домашнаяя страница</p>
-        <p>
-          Ваш логин:
-          {email}
-        </p>
-        <p>
-          Ваше имя:
-          {displayName}
-        </p>
-        <p>
-          Ваш аватар
-          <img src={photoURL} alt="аватар" />
-        </p>
+        <div className="home__info">
+          <p>
+            Ваш логин:&nbsp;
+            {email}
+          </p>
+          <p>
+            Ваше имя:&nbsp;
+            {displayName}
+          </p>
+          <p>
+            Ваш аватар&nbsp;
+            <img src={photoURL} className="home__img" alt="аватар" />
+          </p>
+          {password && <p>
+            Ваш новый пароль:&nbsp;
+            {password}
+          </p>}
+        </div>
+        <hr />
+        <form onSubmit={this.onSubmit} className="home__form">
+          <h3>Изменить данные пользователя</h3>
+          <input
+            className="home__form-input"
+            onChange={this.onChange}
+            type="text"
+            name="name"
+            placeholder="Введите ваше имя"
+          />
+          <input
+            className="home__form-input"
+            onChange={this.onChange}
+            type="text"
+            name="photoURL"
+            placeholder="Ссылка на ваше фото"
+          />
+          <input
+            className="home__form-input"
+            onChange={this.onChange}
+            type="email"
+            name="email"
+            placeholder="Ваш новый email"
+          />
+          {emailError && <p>{emailError}</p>}
+          <input
+            className="home__form-input"
+            onChange={this.onChange}
+            type="password"
+            name="password"
+            placeholder="Введите новый пароль"
+          />
 
-
-        <form onSubmit={this.onSubmit}>
-          <div>
-            <label>
-              Ваше имя
-              <input
-                onChange={this.onChange}
-                type="text"
-                name="name"
-                placeholder="Введите ваше имя"
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              Ссылка на ваше фото
-              <input
-                onChange={this.onChange}
-                type="text"
-                name="photoURL"
-                placeholder="Ссылка на ваше фото"
-              />
-            </label>
-          </div>
-          <div>
-            <label>
-              Сменить email
-              <input
-                onChange={this.onChange}
-                type="email"
-                name="email"
-                placeholder="Ваш новый email"
-              />
-            </label>
-            {emailError && <p>{emailError}</p>}
-          </div>
-          <div>
-            <label>
-              Сменить пароль
-              <input
-                onChange={this.onChange}
-                type="password"
-                name="password"
-                placeholder="Введите новый пароль"
-              />
-            </label>
-            {passwordError && <p>{passwordError}</p>}
-          </div>
-          <button type="submit">Применить изменения</button>
+          {passwordError && <p>{passwordError}</p>}
+          <button type="submit" className="home__button">Применить изменения</button>
         </form>
-        <button type="button" onClick={this.firebaseOut}>
-          Выйти
-        </button>
+        <div className="home__wrapper-button">
+          <button type="button" onClick={this.firebaseOut} className="home__button">
+            Выйти
+          </button>
+        </div>
       </div>
     );
   }
 
   onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    const user = firebaseApp.auth().currentUser;
+    const { setChangePassword, setChangeEmail, setChangeName, setChangePhotoURL } = this.props;
+
     switch (name) {
-      case 'name':
-        user && user.updateProfile({
-          displayName: value,
-        });
-        break;
-      case 'photoURL':
-        user && user.updateProfile({
-          photoURL: value,
-        });
+      case 'password':
+        setChangePassword(value);
         break;
       case 'email':
-        user && user.updateEmail(value).then(() => {
-          // Email sent.
-          this.setState({ emailError: '' });
-        })
-          .catch((error: {message: string}) => {
-            // An error happened.
-            this.setState({ emailError: error.message });
-          });
+        setChangeEmail(value);
         break;
-      case 'password':
-        user && user.updatePassword(value).then(() => {
-          // Email sent.
-          this.setState({ passwordError: '' });
-        })
-          .catch((error: {message: string}) => {
-            // An error happened.
-            this.setState({ passwordError: error.message });
-          });
+      case 'name':
+        setChangeName(value);
+        break;
+      case 'photoURL':
+        setChangePhotoURL(value);
         break;
       default:
         break;
@@ -156,20 +143,54 @@ class Home extends React.Component<IProps> {
   };
 
   onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    const { changeAuthorized } = this.props;
+    const { changeAuthorized, changeEmail, changeName, photoURL,
+      displayName, changePhotoURL, changePassword } = this.props;
+
+    const user = firebaseApp.auth().currentUser;
+
+    if (user) {
+      changeEmail && user.updateEmail(changeEmail).then(() => {
+        // Email sent.
+        console.log(changeEmail)
+        checkAuthorization(changeAuthorized);
+        this.setState({ emailError: '' });
+      })
+        .catch((error: { message: string }) => {
+          // An error happened.
+          this.setState({ emailError: error.message });
+        });
+
+      user.updateProfile({
+        displayName: changeName ? changeName : displayName,
+        photoURL: changePhotoURL ? changePhotoURL : photoURL,
+      }).then(() => { checkAuthorization(changeAuthorized); })
+        .catch((error: { message: string }) => {
+          this.setState({ passwordError: error.message });
+        });
+
+      changePassword && user.updatePassword(changePassword).then(() => {
+        checkAuthorization(changeAuthorized);
+        this.setState({ passwordError: '', password: changePassword });
+      }).catch((error: { message: string }) => {
+        // An error happened.
+        this.setState({ passwordError: error.message });
+      });
+    }
+
     checkAuthorization(changeAuthorized);
     event.preventDefault();
   };
 
   firebaseOut = () => {
-    const { history, dispatch } = this.props;
+    const { history, changeSingOut } = this.props;
     firebaseOut(history);
-    dispatch(changeSingOut);
+    changeSingOut();
   };
 }
 
 const putStateToProps = (state: any) => {
-  const { email, authorized, error, password, displayName, photoURL } = state;
+  const { email, authorized, error, password, displayName, photoURL } = state.root;
+  const { changePassword, changeEmail, changeName, changePhotoURL } = state.change;
   return {
     photoURL,
     email,
@@ -177,11 +198,20 @@ const putStateToProps = (state: any) => {
     error,
     password,
     displayName,
+    changePassword,
+    changeEmail,
+    changeName,
+    changePhotoURL,
   };
 };
 
 const putActionsToProps = (dispatch: any) => ({
+  changeSingOut: bindActionCreators(changeSingOut, dispatch),
   changeAuthorized: bindActionCreators(changeAuthorized, dispatch),
+  setChangePassword: bindActionCreators(setChangePassword, dispatch),
+  setChangeEmail: bindActionCreators(setChangeEmail, dispatch),
+  setChangeName: bindActionCreators(setChangeName, dispatch),
+  setChangePhotoURL: bindActionCreators(setChangePhotoURL, dispatch),
 });
 
 // const putSignOutToProps = (dispatch: any) => ({

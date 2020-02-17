@@ -6,6 +6,7 @@ import { firebaseApp } from '../../firebase/firebase';
 import { checkAuthorization } from '../../firebase/checkAuthorization';
 import { changeAuthorized } from '../../reducers/store';
 import * as ROUTES from '../../constants/routes';
+import './style.scss';
 
 interface IState {
   email: string,
@@ -44,7 +45,7 @@ class SingIn extends React.Component<IProps> {
     const { authorized } = this.props;
     const { error } = this.state;
     return (
-      <div>
+      <div className="sing-in">
         <h1>Старница входа</h1>
 
         {authorized && <p>Сменить аккаунт</p>}
@@ -52,23 +53,26 @@ class SingIn extends React.Component<IProps> {
 
         <form onSubmit={this.onSubmit}>
           <input
+            className="sing-in__form-input"
             onChange={this.onChange}
             type="email"
             name="email"
             placeholder="ваш email"
           />
           <input
+            className="sing-in__form-input"
             onChange={this.onChange}
             type="password"
             name="password"
             placeholder="ваш пароль"
           />
-          <button type="submit">Войти</button>
+
+          <button type="submit" className="sing-in__button">Войти</button>
           {error && <p>{error.message}</p>}
         </form>
         <div>
           <p>Забыли пароль?</p>
-          <button type="button" onClick={this.resetPassword}>
+          <button type="button" className="sing-in__button" onClick={this.resetPassword}>
             Сброс пароля
           </button>
         </div>
@@ -102,7 +106,7 @@ class SingIn extends React.Component<IProps> {
 }
 
 const putStateToProps = (state: any) => {
-  const { email, authorized, error, password, photoURL } = state;
+  const { email, authorized, error, password, photoURL } = state.root;
   return {
     email,
     authorized,

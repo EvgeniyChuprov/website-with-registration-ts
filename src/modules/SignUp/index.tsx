@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { firebaseApp } from '../../firebase/firebase';
 import * as ROUTES from '../../constants/routes';
+import './style.scss';
 
 interface IProps {
   authorized: boolean,
@@ -29,7 +30,7 @@ class SingUp extends React.Component<IProps> {
     const { error } = this.state;
     const { authorized, email } = this.props;
     return (
-      <div>
+      <div className="sign-up">
         <h1>Регистрация</h1>
         {authorized
           && (
@@ -50,18 +51,20 @@ class SingUp extends React.Component<IProps> {
               <p>Заполните форму регистрации</p>
               <form onSubmit={this.handleSignUp}>
                 <input
+                  className="sign-up__form-input"
                   onChange={this.onChange}
                   type="email"
                   name="email"
                   placeholder="Ваш email"
                 />
                 <input
+                  className="sign-up__form-input"
                   onChange={this.onChange}
                   type="password"
                   name="password"
                   placeholder="Ваш пароль"
                 />
-                <button type="submit">Зарегистрироваться</button>
+                <button type="submit" className="sign-up__button">Зарегистрироваться</button>
                 {error && <p>{error.message}</p>}
               </form>
             </div>
@@ -91,7 +94,7 @@ class SingUp extends React.Component<IProps> {
 }
 
 const putStateToProps = (state: any) => {
-  const { email, authorized, error, password } = state;
+  const { email, authorized, error, password } = state.root;
   return {
     email,
     authorized,

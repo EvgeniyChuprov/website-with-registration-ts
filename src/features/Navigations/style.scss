@@ -1,5 +1,7 @@
 .navigations {
   display: flex;
+  justify-content: flex-end;
+  background-color: gray;
   list-style-type: none;
 
   &__element {

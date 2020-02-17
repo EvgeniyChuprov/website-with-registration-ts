@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { firebaseApp } from '../../firebase/firebase';
+import './style.scss';
 
 interface IState {
   email: string,
@@ -16,10 +17,11 @@ class ResetPassword extends React.Component {
   render() {
     const { errorEmail } = this.state;
     return (
-      <div>
-        Сброс Пароля
+      <div className="reset-password">
+        <h1>Сброс Пароля</h1>
         <form onSubmit={this.onSubmit}>
           <input
+            className="reset-password__form-input"
             onChange={this.onChange}
             type="email"
             name="email"
@@ -27,7 +29,12 @@ class ResetPassword extends React.Component {
           />
           {errorEmail && <p>{errorEmail}</p>}
           <div>
-            <button type="submit">Отправить письмо для сброса пароля</button>
+            <button
+              type="submit"
+              className="reset-password__button"
+            >
+              Отправить письмо для сброса пароля
+            </button>
           </div>
         </form>
       </div>

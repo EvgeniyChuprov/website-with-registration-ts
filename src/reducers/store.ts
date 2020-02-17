@@ -55,6 +55,8 @@ const rootReducer = (state = initialState, action: any) => {
   }
 };
 
+export { rootReducer };
+
 const store = createStore(rootReducer);
 
 export { store, changeAuthorized, changeSingOut };

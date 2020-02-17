@@ -1,0 +1,22 @@
+.sing-in {
+  text-align: center;
+
+  &__form-input {
+    display: block;
+    margin: 20px auto;
+    padding: 0 15px;
+    width: 60%;
+    height: 20px;
+    outline: none;
+    border: 2px solid red;
+    border-radius: 5px;
+  }
+
+  &__button {
+    width: 40%;
+    outline: none;
+    border: 2px solid red;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+}

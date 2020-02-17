@@ -1,0 +1,44 @@
+.home {
+  text-align: center;
+
+  &__info {
+    margin: auto;
+    width: 60%;
+    text-align: justify;
+  }
+
+  &__img {
+    width: 50px;
+  }
+
+  &__form {
+    margin: auto;
+    padding: 20px;
+    width: 60%;
+    border: 1px solid red;
+    border-radius: 5px;
+  }
+
+  &__form-input {
+    display: block;
+    margin: 20px auto;
+    padding: 0 15px;
+    width: 60%;
+    height: 20px;
+    outline: none;
+    border: 1px solid red;
+    border-radius: 5px;
+  }
+
+  &__button {
+    width: 60%;
+    outline: none;
+    border: 2px solid red;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  &__wrapper-button {
+    padding: 20px;
+  }
+}

@@ -18,6 +18,13 @@ class Navigations extends React.Component<IProps> {
     const { authorized } = this.props;
     return (
       <ul className="navigations">
+        <li>
+          <Link to={ROUTES.LANDING}>
+            <span className="navigations__element">
+              Главная страница
+            </span>
+          </Link>
+        </li>
         {authorized && (
           <li>
             <Link to={ROUTES.HOME}>
@@ -27,13 +34,6 @@ class Navigations extends React.Component<IProps> {
             </Link>
           </li>
         )}
-        <li>
-          <Link to={ROUTES.LANDING}>
-            <span className="navigations__element">
-              Главная страница
-            </span>
-          </Link>
-        </li>
         <li>
           <Link to={ROUTES.SING_UP}>
             <span className="navigations__element">
@@ -55,7 +55,7 @@ class Navigations extends React.Component<IProps> {
 
 
 const putStateToProps = (state: any) => {
-  const { authorized } = state;
+  const { authorized } = state.root;
   return {
     authorized,
   };

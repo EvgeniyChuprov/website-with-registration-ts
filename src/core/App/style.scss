@@ -1,0 +1,14 @@
+.app {
+  &__navigation {
+    padding: 20px;
+    background-color: gray;
+  }
+
+  &__content {
+    margin: 2% auto;
+    padding: 20px;
+    width: 25%;
+    border: 2px solid red;
+    border-radius: 20px;
+  }
+}
