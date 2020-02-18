@@ -1,7 +1,7 @@
 import { createStore } from 'redux';
 
-const AUTHORIZIRED = 'AUTHORIZIRED';
-const SIGNOUT = 'SIGNOUT';
+import { AUTHORIZIRED, SIGNOUT } from '../ConstReducers';
+
 
 interface IinitialState {
   authorized: boolean;
@@ -25,20 +25,6 @@ const initialState: IinitialState = {
   isAnonymous: false,
 };
 
-const changeAuthorized = (newStatusAuthorized: {}) => (
-  {
-    type: AUTHORIZIRED,
-    payload: newStatusAuthorized,
-  }
-);
-
-const changeSingOut = () => (
-  {
-    type: SIGNOUT,
-    payload: initialState,
-  }
-);
-
 const rootReducer = (state = initialState, action: any) => {
   const { payload } = action;
   switch (action.type) {
@@ -55,8 +41,6 @@ const rootReducer = (state = initialState, action: any) => {
   }
 };
 
-export { rootReducer };
-
 const store = createStore(rootReducer);
 
-export { store, changeAuthorized, changeSingOut };
+export { store, rootReducer, initialState };

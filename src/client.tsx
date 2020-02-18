@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
 import { App } from './core/App/index';
 import { firebaseApp } from './firebase/firebase';
-import { createStore } from 'redux';
-//import { store } from './reducers/store';
+// import { store } from './reducers/store';
 import { combReducer } from './reducers/reducers';
 
 const store = createStore(combReducer);

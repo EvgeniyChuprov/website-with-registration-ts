@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { changeSingOut, changeAuthorized } from '../../reducers/store';
+import { changeSingOut, changeAuthorized } from '../../reducers/Authorized/actions';
 import { firebaseOut, checkAuthorization } from '../../firebase/checkAuthorization';
 import { firebaseApp } from '../../firebase/firebase';
 import { setChangePassword, setChangeEmail, setChangeName, setChangePhotoURL } from '../../reducers/ChangeData/actions';
@@ -20,7 +20,7 @@ interface IProps {
   history: {
     push: (arg: string) => void
   },
-  dispatch: any,
+  // dispatch: any,
   changeAuthorized: (x: {}) => {},
   setChangePhotoURL: (x: {}) => {},
   setChangeName: (x: {}) => {},
@@ -30,8 +30,6 @@ interface IProps {
 }
 
 interface IState {
-  // displayName: string,
-  // email: string,
   password: string | null,
   emailError: string | null,
   passwordError: string | null,
@@ -39,8 +37,6 @@ interface IState {
 
 class Home extends React.Component<IProps> {
   public state: IState = {
-    // displayName: '',
-    // email: this.props.email,
     password: null,
     emailError: null,
     passwordError: null,
@@ -150,8 +146,7 @@ class Home extends React.Component<IProps> {
 
     if (user) {
       changeEmail && user.updateEmail(changeEmail).then(() => {
-        // Email sent.
-        console.log(changeEmail)
+
         checkAuthorization(changeAuthorized);
         this.setState({ emailError: '' });
       })
@@ -172,7 +167,6 @@ class Home extends React.Component<IProps> {
         checkAuthorization(changeAuthorized);
         this.setState({ passwordError: '', password: changePassword });
       }).catch((error: { message: string }) => {
-        // An error happened.
         this.setState({ passwordError: error.message });
       });
     }
@@ -210,15 +204,10 @@ const putActionsToProps = (dispatch: any) => ({
   changeAuthorized: bindActionCreators(changeAuthorized, dispatch),
   setChangePassword: bindActionCreators(setChangePassword, dispatch),
   setChangeEmail: bindActionCreators(setChangeEmail, dispatch),
-  setChangeName: bindActionCreators(setChangeName, dispatch),
   setChangePhotoURL: bindActionCreators(setChangePhotoURL, dispatch),
+  setChangeName: bindActionCreators(setChangeName, dispatch),
 });
 
-// const putSignOutToProps = (dispatch: any) => ({
-//   changeSingOut: bindActionCreators(changeSingOut, dispatch),
-// });
-
-// const WrapperHome = connect(putStateToProps)(Home);
 const WrapperHome = connect(putStateToProps, putActionsToProps)(Home);
 
 export { WrapperHome };

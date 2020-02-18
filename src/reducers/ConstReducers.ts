@@ -1,0 +1,6 @@
+export const AUTHORIZIRED = 'AUTHORIZIRED';
+export const SIGNOUT = 'SIGNOUT';
+export const CHANGE_EMAIL = 'CHANGE_EMAIL';
+export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
+export const CHANGE_PHOTO_URL = 'CHANGE_PHOTO_URL';
+export const CHANGE_NAME = 'CHANGE_NAME';

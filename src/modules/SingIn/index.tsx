@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import { firebaseApp } from '../../firebase/firebase';
 import { checkAuthorization } from '../../firebase/checkAuthorization';
-import { changeAuthorized } from '../../reducers/store';
+import { changeAuthorized } from '../../reducers/Authorized/actions';
 import * as ROUTES from '../../constants/routes';
 import './style.scss';
 
@@ -18,10 +18,10 @@ interface IProps {
   authorized: boolean,
   photoURL: string,
   email: string,
-  changeAuthorized: (x: {}) => {},
   history: {
     push: (arg: string) => void
   }
+  changeAuthorized: (x: {}) => {},
 }
 
 class SingIn extends React.Component<IProps> {

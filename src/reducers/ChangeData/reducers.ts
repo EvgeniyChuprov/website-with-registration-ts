@@ -1,6 +1,6 @@
 // import { createStore } from 'redux';
 
-import { CHANGE_EMAIL, CHANGE_PASSWORD, CHANGE_NAME, CHANGE_PHOTO_URL } from './actions';
+import { CHANGE_EMAIL, CHANGE_PASSWORD, CHANGE_NAME, CHANGE_PHOTO_URL } from '../ConstReducers';
 
 interface IinitialState {
   authorized: boolean;

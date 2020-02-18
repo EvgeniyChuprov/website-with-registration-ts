@@ -11,7 +11,7 @@ interface IProps {
 
 class Navigations extends React.Component<IProps> {
   componentDidMount() {
-    console.log(12313);
+
   }
 
   render() {
