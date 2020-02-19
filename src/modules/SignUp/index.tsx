@@ -16,6 +16,7 @@ interface IProps {
 interface IState {
   email: string,
   password: string,
+  userName: string,
   error: { message: string } | null,
 }
 
@@ -23,6 +24,7 @@ class SingUp extends React.Component<IProps> {
   public state: IState = {
     email: '',
     password: '',
+    userName: '',
     error: null,
   };
 
@@ -53,6 +55,13 @@ class SingUp extends React.Component<IProps> {
                 <input
                   className="sign-up__form-input"
                   onChange={this.onChange}
+                  type="userName"
+                  name="userName"
+                  placeholder="Ваше имя"
+                />
+                <input
+                  className="sign-up__form-input"
+                  onChange={this.onChange}
                   type="email"
                   name="email"
                   placeholder="Ваш email"
@@ -79,8 +88,15 @@ class SingUp extends React.Component<IProps> {
 
   handleSignUp = (event: React.FormEvent<HTMLFormElement>) => {
     const { history } = this.props;
-    const { email, password } = this.state;
-    firebaseApp.auth().createUserWithEmailAndPassword(email, password).then(() => {
+    const { email, password, userName } = this.state;
+    firebaseApp.auth().createUserWithEmailAndPassword(email, password).then(authUser => {
+      firebaseApp.database().ref(`users/${authUser.user && authUser.user.uid}`).set({
+        email,
+        data: {
+          userName,
+          password,
+        },
+      });
       history.push(ROUTES.HOME);
     }).catch(error => {
       this.setState({ error });

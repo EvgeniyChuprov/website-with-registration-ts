@@ -143,10 +143,11 @@ class Home extends React.Component<IProps> {
       displayName, changePhotoURL, changePassword } = this.props;
 
     const user = firebaseApp.auth().currentUser;
-
     if (user) {
       changeEmail && user.updateEmail(changeEmail).then(() => {
-
+        firebaseApp.database().ref(`users/${user && user.uid}`).set({
+          email: changeEmail,
+        });
         checkAuthorization(changeAuthorized);
         this.setState({ emailError: '' });
       })
