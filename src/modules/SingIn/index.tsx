@@ -2,10 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { firebaseApp } from '../../firebase/firebase';
+import { firebaseApp, googleProvider } from '../../firebase/firebase';
 import { checkAuthorization } from '../../firebase/checkAuthorization';
 import { changeAuthorized } from '../../reducers/Authorized/actions';
 import * as ROUTES from '../../constants/routes';
+import { Button } from '../../features/Button';
 import './style.scss';
 
 interface IState {
@@ -46,38 +47,53 @@ class SingIn extends React.Component<IProps> {
     const { error } = this.state;
     return (
       <div className="sing-in">
-        <h1>Старница входа</h1>
+        <h1 className="sing-in__header">Страница входа</h1>
 
-        {authorized && <p>Сменить аккаунт</p>}
-        {!authorized && <p>Введите свой логин и пароль</p>}
-
-        <form onSubmit={this.onSubmit}>
-          <input
-            className="sing-in__form-input"
-            onChange={this.onChange}
-            type="email"
-            name="email"
-            placeholder="ваш email"
-          />
-          <input
-            className="sing-in__form-input"
-            onChange={this.onChange}
-            type="password"
-            name="password"
-            placeholder="ваш пароль"
-          />
-
-          <button type="submit" className="sing-in__button">Войти</button>
-          {error && <p>{error.message}</p>}
-        </form>
+        {authorized && <p className="sing-in__text">Сменить аккаунт</p>}
+        {!authorized && <p className="sing-in__text">Введите свой логин и пароль</p>}
+        <div className="sign-in__wrapper">
+          <form onSubmit={this.onSubmit}>
+            <input
+              className="sing-in__form-input"
+              onChange={this.onChange}
+              type="email"
+              name="email"
+              placeholder="ваш email"
+            />
+            <input
+              className="sing-in__form-input"
+              onChange={this.onChange}
+              type="password"
+              name="password"
+              placeholder="ваш пароль"
+            />
+            <Button
+              name="Войти"
+            />
+            {error && <p className="sing-in__text">{error.message}</p>}
+          </form>
+        </div>
         <div>
-          <p>Забыли пароль?</p>
-          <button type="button" className="sing-in__button" onClick={this.resetPassword}>
-            Сброс пароля
-          </button>
+          <h2>Вход через соцсети</h2>
+          <Button
+            name="googl"
+            method={this.onGoogle}
+          />
+        </div>
+        <div>
+          <p className="sing-in__text">Забыли пароль?</p>
+          <Button
+            name="Сброс пароля"
+            method={this.resetPassword}
+          />
         </div>
       </div>
     );
+  }
+
+  onGoogle = () => {
+    firebaseApp.auth().signInWithPopup(googleProvider)
+    console.log(firebaseApp)
   }
 
   resetPassword = () => {

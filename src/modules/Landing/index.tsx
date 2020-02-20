@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import { checkAuthorization } from '../../firebase/checkAuthorization';
 import { changeAuthorized } from '../../reducers/Authorized/actions';
+import './style.scss';
 
 interface IProps {
   changeAuthorized: (x: {}) => {},
@@ -17,7 +18,7 @@ class Landing extends React.Component<IProps> {
 
   render() {
     return (
-      <div>
+      <div className="landing">
         <h1>Главная страница</h1>
         <p>Здесь все происходит</p>
       </div>

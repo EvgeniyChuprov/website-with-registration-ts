@@ -7,6 +7,7 @@ import { changeSingOut, changeAuthorized } from '../../reducers/Authorized/actio
 import { firebaseOut, checkAuthorization } from '../../firebase/checkAuthorization';
 import { firebaseApp } from '../../firebase/firebase';
 import { setChangePassword, setChangeEmail, setChangeName, setChangePhotoURL } from '../../reducers/ChangeData/actions';
+import { Button } from '../../features/Button';
 import './style.scss';
 
 interface IProps {
@@ -40,7 +41,7 @@ class Home extends React.Component<IProps> {
     password: null,
     emailError: null,
     passwordError: null,
-  }
+  };
 
   componentDidMount() {
     const { changeAuthorized } = this.props;
@@ -55,21 +56,27 @@ class Home extends React.Component<IProps> {
         <h1>Домашнаяя страница</h1>
         <div className="home__info">
           <p>
-            Ваш логин:&nbsp;
-            {email}
+            Ваш логин:
+            <span className="home__info-data">
+              {email}
+            </span>
           </p>
           <p>
             Ваше имя:&nbsp;
-            {displayName}
+            <span className="home__info-data">
+              {displayName}
+            </span>
           </p>
           <p>
-            Ваш аватар&nbsp;
+            Ваш аватар:&nbsp;
             <img src={photoURL} className="home__img" alt="аватар" />
           </p>
-          {password && <p>
-            Ваш новый пароль:&nbsp;
-            {password}
-          </p>}
+          {password && (
+            <p>
+              Ваш новый пароль:&nbsp;
+              {password}
+            </p>
+          )}
         </div>
         <hr />
         <form onSubmit={this.onSubmit} className="home__form">
@@ -105,12 +112,15 @@ class Home extends React.Component<IProps> {
           />
 
           {passwordError && <p>{passwordError}</p>}
-          <button type="submit" className="home__button">Применить изменения</button>
+          <Button
+            name="Применить"
+          />
         </form>
         <div className="home__wrapper-button">
-          <button type="button" onClick={this.firebaseOut} className="home__button">
-            Выйти
-          </button>
+          <Button
+            method={this.firebaseOut}
+            name="Выйти"
+          />
         </div>
       </div>
     );
@@ -143,6 +153,9 @@ class Home extends React.Component<IProps> {
       displayName, changePhotoURL, changePassword } = this.props;
 
     const user = firebaseApp.auth().currentUser;
+    console.log(user)
+    const ar = user.providerData.map(i => i.providerId)
+    console.log(ar)
     if (user) {
       changeEmail && user.updateEmail(changeEmail).then(() => {
         firebaseApp.database().ref(`users/${user && user.uid}`).set({

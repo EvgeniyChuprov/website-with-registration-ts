@@ -1,0 +1,18 @@
+.button {
+  width: 40%;
+  height: 3rem;
+  outline: none;
+  border-radius: 2rem;
+  background-color: red;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+
+  @media screen and (max-width: 1040px) {
+    font-size: 1rem;
+  }
+
+  @media screen and (max-width: 740px) {
+    font-size: 0.8rem;
+  }
+}

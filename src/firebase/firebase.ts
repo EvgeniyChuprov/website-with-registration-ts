@@ -1,7 +1,7 @@
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-
+// import 'firebase/auth/signInWithPopup';
 
 const config = {
   apiKey: 'AIzaSyCqqOOAES4Mq3-tya02MtNRljbx_K_nC2k',
@@ -15,5 +15,6 @@ const config = {
 };
 
 const firebaseApp = app.initializeApp(config);
-
-export { firebaseApp };
+const googleProvider = new app.auth.GoogleAuthProvider();
+// firebaseApp.signInWithPopup(googleProvider);
+export { firebaseApp, googleProvider };

@@ -18,7 +18,6 @@ const App = () => (
       <div className="app__navigation">
         <WrapperNavigations />
       </div>
-      <hr />
       <div className="app__content">
         {/* <Route exact path={ROUTES.LANDING} component={Landing} /> */}
         <Route exact path={ROUTES.LANDING} render={() => <WrapperLanding />} />

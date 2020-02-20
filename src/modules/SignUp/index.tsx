@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { firebaseApp } from '../../firebase/firebase';
 import * as ROUTES from '../../constants/routes';
+import { Button } from '../../features/Button';
 import './style.scss';
 
 interface IProps {
@@ -33,24 +34,25 @@ class SingUp extends React.Component<IProps> {
     const { authorized, email } = this.props;
     return (
       <div className="sign-up">
-        <h1>Регистрация</h1>
+        <h1 className="sign-up__header">Регистрация</h1>
         {authorized
           && (
             <div>
-              <p>Вы уже зарегестрированы.</p>
-              <p>
+              <p className="sing-up__text">Вы уже зарегестрированы.</p>
+              <p className="sing-up__text">
                 Ваш логин:
                 {email}
               </p>
-              <button type="button" onClick={this.firebaseOut}>
-                Сменить пользователя
-              </button>
+              <Button
+                name="Сменить пользователя"
+                method={this.firebaseOut}
+              />
             </div>
           )}
         {!authorized
           && (
-            <div>
-              <p>Заполните форму регистрации</p>
+            <div className="sign-up__form-wrapper">
+              <p className="sign-up__text">Заполните форму регистрации</p>
               <form onSubmit={this.handleSignUp}>
                 <input
                   className="sign-up__form-input"
@@ -73,8 +75,10 @@ class SingUp extends React.Component<IProps> {
                   name="password"
                   placeholder="Ваш пароль"
                 />
-                <button type="submit" className="sign-up__button">Зарегистрироваться</button>
-                {error && <p>{error.message}</p>}
+                <Button
+                  name="Зарегистрироваться"
+                />
+                {error && <p className="sign-up__text">{error.message}</p>}
               </form>
             </div>
           )}

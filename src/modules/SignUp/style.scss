@@ -1,22 +1,52 @@
 .sign-up {
   text-align: center;
+  font-size: 2rem;
+
+  &__header {
+    @media screen and (max-width: 740px) {
+      font-size: 4rem;
+    }
+
+    @media screen and (max-width: 560px) {
+      font-size: 3rem;
+    }
+
+    @media screen and (max-width: 460px) {
+      font-size: 2rem;
+    }
+  }
+
+  &__text {
+    @media screen and (max-width: 830px) {
+      font-size: 1rem;
+    }
+  }
+
+  &__form-wrapper {
+    margin: 0 auto;
+    width: 60%;
+
+    @media screen and (max-width: 830px) {
+      width: 100%;
+    }
+  }
 
   &__form-input {
     display: block;
-    margin: 20px auto;
-    padding: 0 15px;
+    margin: 2rem auto;
     width: 60%;
-    height: 20px;
     outline: none;
-    border: 2px solid red;
-    border-radius: 5px;
-  }
+    border: none;
+    border-bottom: 0.2rem solid red;
+    font-size: 3rem;
 
-  &__button {
-    width: 40%;
-    outline: none;
-    border: 2px solid red;
-    border-radius: 5px;
-    cursor: pointer;
+    @media screen and (max-width: 1040px) {
+      width: 100%;
+      font-size: 1.5rem;
+    }
+
+    @media screen and (max-width: 740px) {
+      font-size: 1.1rem;
+    }
   }
 }
