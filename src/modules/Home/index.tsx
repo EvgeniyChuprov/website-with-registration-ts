@@ -34,6 +34,7 @@ interface IState {
   password: string | null,
   emailError: string | null,
   passwordError: string | null,
+  providerId: string | null,
 }
 
 class Home extends React.Component<IProps> {
@@ -41,6 +42,7 @@ class Home extends React.Component<IProps> {
     password: null,
     emailError: null,
     passwordError: null,
+    providerId: null,
   };
 
   componentDidMount() {
@@ -48,19 +50,42 @@ class Home extends React.Component<IProps> {
     checkAuthorization(changeAuthorized);
   }
 
+  componentDidUpdate() {
+    const { email } = this.props;
+    const { providerId } = this.state;
+    const user = firebaseApp.auth().currentUser;
+    if (email === null) {
+      user && user.providerData.forEach((i: firebase.UserInfo) => {
+        if (providerId !== i.providerId) {
+          this.setState({ providerId: i.providerId });
+        }
+      });
+    }
+  }
+
   render() {
     const { email, displayName, photoURL } = this.props;
-    const { emailError, passwordError, password } = this.state;
+    const { emailError, passwordError, password, providerId } = this.state;
     return (
       <div className="home">
         <h1>Домашнаяя страница</h1>
         <div className="home__info">
-          <p>
-            Ваш логин:
-            <span className="home__info-data">
-              {email}
-            </span>
-          </p>
+          {!providerId && (
+            <p>
+              Ваш логин:
+              <span className="home__info-data">
+                {email}
+              </span>
+            </p>
+          )}
+          {providerId && (
+            <p>
+              Вы вошли через :
+              <span className="home__info-data">
+                {providerId}
+              </span>
+            </p>
+          )}
           <p>
             Ваше имя:&nbsp;
             <span className="home__info-data">
@@ -153,9 +178,9 @@ class Home extends React.Component<IProps> {
       displayName, changePhotoURL, changePassword } = this.props;
 
     const user = firebaseApp.auth().currentUser;
-    console.log(user)
-    const ar = user.providerData.map(i => i.providerId)
-    console.log(ar)
+    // console.log(user)
+    // const ar = user.providerData.map(i => i.providerId)
+    // console.log(ar)
     if (user) {
       changeEmail && user.updateEmail(changeEmail).then(() => {
         firebaseApp.database().ref(`users/${user && user.uid}`).set({

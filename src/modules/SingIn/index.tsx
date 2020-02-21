@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { firebaseApp, googleProvider } from '../../firebase/firebase';
+import { firebaseApp, googleProvider, facebookProvider } from '../../firebase/firebase';
 import { checkAuthorization } from '../../firebase/checkAuthorization';
 import { changeAuthorized } from '../../reducers/Authorized/actions';
 import * as ROUTES from '../../constants/routes';
@@ -76,8 +76,12 @@ class SingIn extends React.Component<IProps> {
         <div>
           <h2>Вход через соцсети</h2>
           <Button
-            name="googl"
+            name="google"
             method={this.onGoogle}
+          />
+          <Button
+            name="facebook"
+            method={this.onFacebook}
           />
         </div>
         <div>
@@ -92,9 +96,18 @@ class SingIn extends React.Component<IProps> {
   }
 
   onGoogle = () => {
-    firebaseApp.auth().signInWithPopup(googleProvider)
-    console.log(firebaseApp)
-  }
+    const { history } = this.props;
+    firebaseApp.auth().signInWithPopup(googleProvider).then(() => {
+      history.push(ROUTES.HOME);
+    });
+  };
+
+  onFacebook = () => {
+    const { history } = this.props;
+    firebaseApp.auth().signInWithPopup(facebookProvider).then(() => {
+      history.push(ROUTES.HOME);
+    });
+  };
 
   resetPassword = () => {
     const { history } = this.props;

@@ -1,7 +1,7 @@
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-// import 'firebase/auth/signInWithPopup';
+
 
 const config = {
   apiKey: 'AIzaSyCqqOOAES4Mq3-tya02MtNRljbx_K_nC2k',
@@ -16,5 +16,6 @@ const config = {
 
 const firebaseApp = app.initializeApp(config);
 const googleProvider = new app.auth.GoogleAuthProvider();
-// firebaseApp.signInWithPopup(googleProvider);
-export { firebaseApp, googleProvider };
+const facebookProvider = new app.auth.FacebookAuthProvider();
+
+export { firebaseApp, googleProvider, facebookProvider };
