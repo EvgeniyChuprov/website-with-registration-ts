@@ -11,6 +11,8 @@ function getRoutes(modules: IModule[]): React.ReactElement<RouteComponentProps<a
       <App>
         <Switch>
           {modules.map(module => (module.getRoutes ? module.getRoutes() : null))}
+          {/* <Redirect to={routes.registrationRoutes.getRedirectPath()} /> */}
+          {/* <Redirect to={routes.signUp.getRedirectPath()} /> */}
           <Redirect to={routes.search.users.getRedirectPath()} />
         </Switch>
       </App>

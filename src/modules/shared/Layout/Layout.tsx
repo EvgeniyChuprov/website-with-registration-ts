@@ -68,23 +68,34 @@ class LayoutComponent extends React.Component<IProps> {
     );
   }
 
+  // @memoizeByProps((props: IProps) => [props.t])
+  // private getMenuItems(): IHeaderMenuItem[] {
+  //   const { t } = this.props;
+  //   return [{
+  //     path: routes.search.users.getRoutePath(),
+  //     title: t(header.users),
+  //   },
+  //   {
+  //     path: routes.search.repositories.getRoutePath(),
+  //     title: t(header.repositories),
+  //   }];
+  // }
+
   @memoizeByProps((props: IProps) => [props.t])
   private getMenuItems(): IHeaderMenuItem[] {
     const { t } = this.props;
     return [{
-      path: routes.search.users.getRoutePath(),
+      path: routes.signUp.getRoutePath(),
       title: t(header.users),
-    },
-    {
-      path: routes.search.repositories.getRoutePath(),
-      title: t(header.repositories),
     }];
   }
+
 
   @autobind
   private handleEditProfileClick() {
     const { history } = this.props;
     history.push(routes.profile.getRoutePath());
+    // history.push(routes.registrationRoutes.getRoutePath());
   }
 }
 

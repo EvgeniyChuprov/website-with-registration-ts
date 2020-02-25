@@ -5,10 +5,7 @@
 // import { withAsyncFeatures } from 'core';
 // import { useTranslation, tKeys } from 'services/i18n';
 
-
-// import { Layout } from '../../../shared';
-
-// // import './ProfileLayout.scss';
+// import { Layout } from '../../../../shared';
 
 // interface IFeatureProps {
 //   profileFeatureEntry: features.profile.Entry;
@@ -19,14 +16,17 @@
 // const b = block('profile-layout');
 
 // function RegistrationLayoutComponent(props: IProps) {
-//   const { profileFeatureEntry: { containers } } = props;
-//   const { ProfileEdit } = containers;
+//   // const { profileFeatureEntry: { containers } } = props;
+//   // const { ProfileEdit } = containers;
 //   const { t } = useTranslation();
 
 //   return (
 //     <Layout title={t(tKeys.features.profile.editProfile)}>
 //       <div className={b()}>
-//         1234
+//         {alert(1231)}
+//         12311414124124
+//         {/* <ProfileEdit /> */}
+//         qweqeqweqeqw
 //       </div>
 //     </Layout>
 //   );

@@ -4,7 +4,7 @@
 // import { routes } from 'modules/routes';
 // import { IModule } from 'shared/types/app';
 
-// import { RegistrationLayout } from './view/components/RegistrationLayout';
+// import { RegistrationLayout } from './view/components';
 
 // const Registration: IModule = {
 //   getRoutes() {
