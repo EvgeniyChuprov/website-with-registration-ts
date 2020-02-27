@@ -69,6 +69,7 @@ class ProfilePreviewComponent extends React.PureComponent<IProps, IState> {
               </div>
               <div className={b('nickname-age')}>
                 <div className={b('nickname')}>
+                  2342242
                   {nickname}
                 </div>
                 <div className={b('age')}>

@@ -14,6 +14,8 @@ export const en = {
       searchFor: 'Search for:',
       users: 'Users',
       repositories: 'Repositories',
+      signIn: 'sign in',
+      signUp: 'sign up',
     },
     footer: {
       fsd: 'Fullstack Development',
@@ -67,6 +69,9 @@ export const en = {
       repositoriesLanguage: 'Repositories language',
       resultsPerPage: 'Results per page',
       repositoriesNumber: 'Repositories number',
+    },
+    signUp: {
+      signUp: 'SIGN UP',
     },
   },
   documents: {},

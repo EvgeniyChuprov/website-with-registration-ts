@@ -12,7 +12,7 @@ type IProps = IFeatureProps;
 
 const b = block('profile-layout');
 
-function RegistrationLayoutComponent() {
+function RepositoriesSignInLayoutComponent() {
   return (
     <div className={b()}>
       12311414124124
@@ -24,6 +24,9 @@ function RegistrationLayoutComponent() {
 
 const RegistrationLayout = withAsyncFeatures({
   profileFeatureEntry: features.profile.loadEntry,
-})(RegistrationLayoutComponent);
+})(RepositoriesSignInLayoutComponent);
 
-export { RegistrationLayout, RegistrationLayoutComponent, IProps as IRegistrationLayoutProps };
+export {
+  RegistrationLayout, RepositoriesSignInLayoutComponent,
+  IProps as IRegistrationLayoutProps,
+};

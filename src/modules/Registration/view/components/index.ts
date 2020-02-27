@@ -1,1 +1,1 @@
-// export { RegistrationLayout } from './RegistrationLayout/RegistrationLayout';
+export { RegistrationLayout } from './RegistrationLayout/RegistrationLayout';

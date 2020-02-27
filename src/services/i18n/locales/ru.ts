@@ -14,6 +14,7 @@ export const ru = {
       searchFor: 'Искать:',
       users: 'Пользователей',
       repositories: 'Репозитории',
+      signIn: 'sign in',
     },
     footer: {
       fsd: 'Fullstack Development',

@@ -30,7 +30,6 @@ class UsersSearchLayoutComponent extends React.PureComponent<IProps, IState> {
     const { usersSearchFeatureEntry: { containers }, t } = this.props;
     const { UsersSearchForm, UsersSearchResults } = containers;
     const { lastSubmittedFormState } = this.state;
-    console.log(containers)
     return (
       <Layout title={t(tKeys.features.userSearch.usersSearch)}>
         <div className={b()}>

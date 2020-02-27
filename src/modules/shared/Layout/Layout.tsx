@@ -68,34 +68,42 @@ class LayoutComponent extends React.Component<IProps> {
     );
   }
 
-  // @memoizeByProps((props: IProps) => [props.t])
-  // private getMenuItems(): IHeaderMenuItem[] {
-  //   const { t } = this.props;
-  //   return [{
-  //     path: routes.search.users.getRoutePath(),
-  //     title: t(header.users),
-  //   },
-  //   {
-  //     path: routes.search.repositories.getRoutePath(),
-  //     title: t(header.repositories),
-  //   }];
-  // }
-
   @memoizeByProps((props: IProps) => [props.t])
   private getMenuItems(): IHeaderMenuItem[] {
     const { t } = this.props;
     return [{
-      path: routes.signUp.getRoutePath(),
+      path: routes.search.users.getRoutePath(),
       title: t(header.users),
+    },
+    {
+      path: routes.search.repositories.getRoutePath(),
+      title: t(header.repositories),
+    },
+    {
+      path: routes.signIn.getRoutePath(),
+      title: t(header.signIn),
+    },
+    {
+      path: routes.signUp.getRoutePath(),
+      title: t(header.signUp),
     }];
   }
+
+  // @memoizeByProps((props: IProps) => [props.t])
+  // private getMenuItems(): IHeaderMenuItem[] {
+  //   const { t } = this.props;
+  //   return [{
+  //     path: routes.signUp.getRoutePath(),
+  //     title: t(header.signUp),
+  //   }];
+  // }
 
 
   @autobind
   private handleEditProfileClick() {
     const { history } = this.props;
     history.push(routes.profile.getRoutePath());
-    // history.push(routes.registrationRoutes.getRoutePath());
+    // history.push(routes.signIn.getRoutePath());
   }
 }
 
