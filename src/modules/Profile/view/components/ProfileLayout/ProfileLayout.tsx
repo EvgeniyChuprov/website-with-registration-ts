@@ -24,7 +24,7 @@ function ProfileLayoutComponent(props: IProps) {
   return (
     <Layout title={t(tKeys.features.profile.editProfile)}>
       <div className={b()}>
-        {/* <ProfileEdit /> */}
+        <ProfileEdit />
       </div>
     </Layout>
   );

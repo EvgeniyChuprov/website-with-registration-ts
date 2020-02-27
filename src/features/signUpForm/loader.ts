@@ -1,5 +1,5 @@
-// import { Entry } from './entry';
+import { Entry } from './entry';
 
-// export function loadEntry(): Promise<Entry> {
-//   return import('./entry').then(feature => feature.entry);
-// }
+export function loadEntry(): Promise<Entry> {
+  return import('./entry').then(feature => feature.entry);
+}

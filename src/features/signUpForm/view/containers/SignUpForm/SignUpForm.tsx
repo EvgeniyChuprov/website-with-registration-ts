@@ -1,13 +1,16 @@
 import React from 'react';
 import { block } from 'bem-cn';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+// import { withTranslation, ITranslationProps, tKeys } from 'services/i18n';
+import { withTranslation } from 'services/i18n';
 import './SignUpForm.scss';
 
 
 const b = block('sign-up-form');
 
-function SignUpForm() {
+function SignUpFormComponent() {
   return (
     <div className={b()}>
       <div>
@@ -43,4 +46,14 @@ function SignUpForm() {
   );
 }
 
+// function mapState(state: IAppReduxState): IStateProps {
+//   return {
+//     signUp: selectors.selectProfile(state),
+//   };
+// }
+
+const connectedComponent = connect()(SignUpFormComponent);
+const SignUpForm = withTranslation()(connectedComponent);
+
 export { SignUpForm };
+// export { SignUpForm };

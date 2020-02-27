@@ -73,6 +73,9 @@ export const en = {
     signUp: {
       signUp: 'SIGN UP',
     },
+    signIn: {
+      signIn: 'SIGN IN',
+    },
   },
   documents: {},
   modules: {},
