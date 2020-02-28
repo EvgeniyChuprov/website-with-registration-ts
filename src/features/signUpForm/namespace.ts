@@ -1,14 +1,14 @@
-// import { ISignUp } from 'shared/types/models';
-// import { IAction } from 'shared/types/redux';
+import { ISignUpForm } from 'shared/types/models';
+import { IAction } from 'shared/types/redux';
 
-// export interface IReduxState {
-//   edit: {
-//     signUp: IProfile;
-//   };
-// }
+export interface IReduxState {
+  edit: {
+    signUpForm: ISignUpForm;
+  };
+}
 
-// export type ISignUpEditFormFields = ISignUp;
+export type ISignUpFormEditFormFields = ISignUpForm;
 
-// export type ISaveSignUp = IAction<'SIGNUP:SAVE_SIGNUP', ISignUpEditFormFields>;
+export type ISaveISignUpForm = IAction<'SIGN_UP_FROM:SAVE_SIGN_UP_FROM', ISignUpFormEditFormFields>;
 
-// export type IAction = ISaveSignUp;
+export type IAction = ISaveISignUpForm;

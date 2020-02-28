@@ -1,10 +1,11 @@
-// import { IAppReduxState } from 'shared/types/app';
-// import { IProfile } from 'shared/types/models';
+import { IAppReduxState } from 'shared/types/app';
+import { ISignUpForm } from 'shared/types/models';
 
-// function selectFeatureState(state: IAppReduxState) {
-//   return state.singUp;
-// }
+function selectFeatureState(state: IAppReduxState) {
+  console.log(6666, state.signUpForm)
+  return state.signUpForm;
+}
 
-// export function selectProfile(state: IAppReduxState): IProfile {
-//   return selectFeatureState(state).edit.singUp;
-// }
+export function selectProfile(state: IAppReduxState): ISignUpForm {
+  return selectFeatureState(state).edit.signUpForm;
+}

@@ -33,3 +33,7 @@ export interface IDetailedGithubUser extends IGithubUser {
   realName: string;
   location: null | string;
 }
+
+export interface ISignUpForm {
+  signUpForm: string;
+}

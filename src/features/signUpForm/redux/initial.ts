@@ -1,10 +1,10 @@
-// import { singUp } from '../constants';
-// import { IReduxState } from '../namespace';
+import { signUpForm } from '../constants';
+import { IReduxState } from '../namespace';
 
-// const initial: IReduxState = {
-//   edit: {
-//     singUp,
-//   },
-// };
-
-// export { initial };
+const initial: IReduxState = {
+  edit: {
+    signUpForm,
+  },
+};
+console.log(33333,initial)
+export { initial };

@@ -1,7 +1,7 @@
 import { makeFeatureEntry } from 'shared/helpers/makeFeatureEntry';
 
 // import { actionCreators, selectors, reducer } from './redux';
-// import { reducer } from './redux';
+import { reducer } from './redux';
 import * as containers from './view/containers';
 
 const entry = makeFeatureEntry({
@@ -9,8 +9,8 @@ const entry = makeFeatureEntry({
   // actionCreators,
   // selectors,
   reduxEntry: {
-    // reducers: { singUp: reducer },
-    reducers: { },
+    reducers: { signUpForm: reducer },
+    // reducers: { },
   },
 });
 
