@@ -44,6 +44,7 @@ export interface IAppReduxState {
   repositoriesSearch: features.repositoriesSearch.namespace.IReduxState;
   profile: features.profile.namespace.IReduxState;
   signUpForm: features.signUpForm.namespace.IReduxState;
+  signInForm: features.signInForm.namespace.IReduxState;
 }
 
 export type RootSaga = (deps: IDependencies) => () => SagaIterator;

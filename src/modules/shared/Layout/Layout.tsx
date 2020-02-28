@@ -80,30 +80,20 @@ class LayoutComponent extends React.Component<IProps> {
       title: t(header.repositories),
     },
     {
-      path: routes.registration.registrationLayoutSignUp.getRoutePath(),
-      title: t(header.registration.registrationLayoutSignUp),
+      path: routes.registration.registrationSignUp.getRoutePath(),
+      title: t(header.registration.registrationSignUp),
     },
     {
-      path: routes.signUp.getRoutePath(),
-      title: t(header.signUp),
+      path: routes.registration.registrationSignIn.getRoutePath(),
+      title: t(header.registration.registrationSignIn),
     }];
   }
-
-  // @memoizeByProps((props: IProps) => [props.t])
-  // private getMenuItems(): IHeaderMenuItem[] {
-  //   const { t } = this.props;
-  //   return [{
-  //     path: routes.signUp.getRoutePath(),
-  //     title: t(header.signUp),
-  //   }];
-  // }
 
 
   @autobind
   private handleEditProfileClick() {
     const { history } = this.props;
     history.push(routes.profile.getRoutePath());
-    // history.push(routes.signIn.getRoutePath());
   }
 }
 

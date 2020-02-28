@@ -3,30 +3,37 @@ import block from 'bem-cn';
 
 import * as features from 'features';
 import { withAsyncFeatures } from 'core';
+import { useTranslation, tKeys } from 'services/i18n';
+
+// import * as repositoriesSearch from 'features/repositoriesSearch';
+// import { withAsyncFeatures } from 'core';
+import { Layout } from '../../../../shared';
+
+import './RegistrationLayoutSignIn.scss';
 
 interface IFeatureProps {
-  profileFeatureEntry: features.profile.Entry;
+  signInFormsFeatureEntry: features.signInForm.Entry;
 }
 
 type IProps = IFeatureProps;
-
-const b = block('profile-layout');
-
-function RegistrationLayoutSignIn() {
+const b = block('sign-in-page');
+function RegistrationLayoutSignIn(props: IProps) {
+  const { signInFormsFeatureEntry: { containers } } = props;
+  const { SignInForm } = containers;
+  const { t } = useTranslation();
   return (
-    <div className={b()}>
-      12311414124124
-      {/* <ProfileEdit /> */}
-      qweqeqweqeqw
-    </div>
+    <Layout title={t(tKeys.features.registration.registrationSignIn)}>
+      <div className={b()}>
+        <div className={b('wrapper')}>
+          <SignInForm />
+        </div>
+      </div>
+    </Layout>
   );
 }
 
-const RegistrationLayout = withAsyncFeatures({
-  profileFeatureEntry: features.profile.loadEntry,
+const SignInPage = withAsyncFeatures({
+  signInFormsFeatureEntry: features.signInForm.loadEntry,
 })(RegistrationLayoutSignIn);
 
-export {
-  RegistrationLayout, RegistrationLayoutSignIn,
-  IProps as IRegistrationLayoutProps,
-};
+export { SignInPage, RegistrationLayoutSignIn /* , IProps as IProfileLayoutProps */ };

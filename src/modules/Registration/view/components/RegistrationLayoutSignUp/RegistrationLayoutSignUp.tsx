@@ -22,9 +22,9 @@ function RegistrationLayoutSignUp(props: IProps) {
   const { SignUpForm } = containers;
   const { t } = useTranslation();
   return (
-    <Layout title={t(tKeys.features.registration.registrationLayoutSignUp)}>
+    <Layout title={t(tKeys.features.registration.registrationSignUp)}>
       <div className={b()}>
-        <div className={b('button')}>
+        <div className={b('wrapper')}>
           <SignUpForm />
         </div>
       </div>

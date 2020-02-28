@@ -14,10 +14,9 @@ export const en = {
       searchFor: 'Search for:',
       users: 'Users',
       repositories: 'Repositories',
-      signIn: 'sign in',
-      signUp: 'sign up',
       registration: {
-        registrationLayoutSignUp: 'reg sign up',
+        registrationSignUp: 'sign up',
+        registrationSignIn: 'sign in',
       },
     },
     footer: {
@@ -74,13 +73,8 @@ export const en = {
       repositoriesNumber: 'Repositories number',
     },
     registration: {
-      registrationLayoutSignUp: 'reg sign up',
-    },
-    signUp: {
-      signUp: 'SIGN UP',
-    },
-    signIn: {
-      signIn: 'SIGN IN',
+      registrationSignUp: 'sign up',
+      registrationSignIn: 'sign in',
     },
   },
   documents: {},

@@ -14,7 +14,10 @@ export const ru = {
       searchFor: 'Искать:',
       users: 'Пользователей',
       repositories: 'Репозитории',
-      signIn: 'sign in',
+      registration: {
+        registrationSignUp: 'Регистрация',
+        registrationSignIn: 'Вход',
+      },
     },
     footer: {
       fsd: 'Fullstack Development',
@@ -70,6 +73,10 @@ export const ru = {
       repositoriesLanguage: 'Язык репозиториев',
       resultsPerPage: 'Результ. на страницу',
       repositoriesNumber: 'Количество репозиториев',
+    },
+    registration: {
+      registrationSignUp: 'Регистрация',
+      registrationSignIn: 'Вход',
     },
   },
   documents: {},

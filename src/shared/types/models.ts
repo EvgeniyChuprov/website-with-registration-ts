@@ -37,3 +37,7 @@ export interface IDetailedGithubUser extends IGithubUser {
 export interface ISignUpForm {
   signUpForm: string;
 }
+
+export interface ISignInForm {
+  signInForm: string;
+}

@@ -1,14 +1,9 @@
 .sign-up-page {
-  &__button {
+  &__wrapper {
     margin: auto;
     width: 70px;
     height: 70px;
     border-radius: 50%;
     background: #b41320d3;
-  }
-
-  &__link {
-    color: white;
-    text-align: center;
   }
 }
