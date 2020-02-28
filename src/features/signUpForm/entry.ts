@@ -10,7 +10,6 @@ const entry = makeFeatureEntry({
   // selectors,
   reduxEntry: {
     reducers: { signUpForm: reducer },
-    // reducers: { },
   },
 });
 

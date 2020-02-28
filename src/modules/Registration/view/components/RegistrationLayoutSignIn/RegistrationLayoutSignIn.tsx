@@ -12,10 +12,10 @@ type IProps = IFeatureProps;
 
 const b = block('profile-layout');
 
-function RepositoriesSignInLayoutComponent() {
+function RegistrationLayoutSignIn() {
   return (
     <div className={b()}>
-      rerererererer
+      12311414124124
       {/* <ProfileEdit /> */}
       qweqeqweqeqw
     </div>
@@ -24,9 +24,9 @@ function RepositoriesSignInLayoutComponent() {
 
 const RegistrationLayout = withAsyncFeatures({
   profileFeatureEntry: features.profile.loadEntry,
-})(RepositoriesSignInLayoutComponent);
+})(RegistrationLayoutSignIn);
 
 export {
-  RegistrationLayout, RepositoriesSignInLayoutComponent,
+  RegistrationLayout, RegistrationLayoutSignIn,
   IProps as IRegistrationLayoutProps,
 };

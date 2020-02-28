@@ -18,7 +18,6 @@ const b = block('profile-layout');
 
 function ProfileLayoutComponent(props: IProps) {
   const { profileFeatureEntry: { containers } } = props;
-  console.log('containers', containers)
   const { ProfileEdit } = containers;
   const { t } = useTranslation();
 

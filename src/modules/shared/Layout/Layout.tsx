@@ -80,8 +80,8 @@ class LayoutComponent extends React.Component<IProps> {
       title: t(header.repositories),
     },
     {
-      path: routes.signIn.getRoutePath(),
-      title: t(header.signIn),
+      path: routes.registration.registrationLayoutSignUp.getRoutePath(),
+      title: t(header.registration.registrationLayoutSignUp),
     },
     {
       path: routes.signUp.getRoutePath(),

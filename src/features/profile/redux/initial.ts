@@ -6,5 +6,4 @@ const initial: IReduxState = {
     profile,
   },
 };
-console.log(33211,initial)
 export { initial };

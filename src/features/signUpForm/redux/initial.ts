@@ -6,5 +6,4 @@ const initial: IReduxState = {
     signUpForm,
   },
 };
-console.log(33333,initial)
 export { initial };

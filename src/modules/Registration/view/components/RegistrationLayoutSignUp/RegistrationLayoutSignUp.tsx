@@ -7,9 +7,9 @@ import { useTranslation, tKeys } from 'services/i18n';
 
 // import * as repositoriesSearch from 'features/repositoriesSearch';
 // import { withAsyncFeatures } from 'core';
-import { Layout } from '../../../shared';
+import { Layout } from '../../../../shared';
 
-import './SignUpPage.scss';
+import './RegistrationLayoutSignUp.scss';
 
 interface IFeatureProps {
   signUpFormsFeatureEntry: features.signUpForm.Entry;
@@ -17,14 +17,12 @@ interface IFeatureProps {
 
 type IProps = IFeatureProps;
 const b = block('sign-up-page');
-
-function SignUpLayoutComponent(props: IProps) {
+function RegistrationLayoutSignUp(props: IProps) {
   const { signUpFormsFeatureEntry: { containers } } = props;
   const { SignUpForm } = containers;
   const { t } = useTranslation();
-  console.log(props)
   return (
-    <Layout title={t(tKeys.features.signUp.signUp)}>
+    <Layout title={t(tKeys.features.registration.registrationLayoutSignUp)}>
       <div className={b()}>
         <div className={b('button')}>
           <SignUpForm />
@@ -36,6 +34,6 @@ function SignUpLayoutComponent(props: IProps) {
 
 const SignUpPage = withAsyncFeatures({
   signUpFormsFeatureEntry: features.signUpForm.loadEntry,
-})(SignUpLayoutComponent);
+})(RegistrationLayoutSignUp);
 
-export { SignUpPage, SignUpLayoutComponent /* , IProps as IProfileLayoutProps */ };
+export { SignUpPage, RegistrationLayoutSignUp /* , IProps as IProfileLayoutProps */ };
