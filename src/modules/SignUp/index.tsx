@@ -1,117 +1,110 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import { withFirebase } from '../../services/Firebase';
+import { firebaseApp } from '../../firebase/firebase';
 import * as ROUTES from '../../constants/routes';
-
-
-const SignUp = () => (
-  <div>
-    <h1>SignUp</h1>
-    <SignUpForm />
-  </div>
-);
-
-const INITIAL_STATE = {
-  username: '',
-  email: '',
-  passwordOne: '',
-  passwordTwo: '',
-  error: null,
-};
-
-interface IState {
-  username: string,
-  email: string,
-  passwordOne: string,
-  passwordTwo: string,
-  error: { message: () => void } | null,
-}
+import { Button } from '../../features/Button';
+import './style.scss';
 
 interface IProps {
-  firebase: {
-    doCreateUserWithEmailAndPassword: (email: string, password: string)
-    => Promise<firebase.auth.UserCredential>,
-    user: (uid: string | null) => any;
-  },
+  authorized: boolean,
+  email: '',
   history: {
     push: (arg: string) => void
-  },
+  }
 }
 
-class SignUpFormBase extends React.Component<IProps> {
+interface IState {
+  email: string,
+  password: string,
+  userName: string,
+  error: { message: string } | null,
+}
+
+class SingUp extends React.Component<IProps> {
   public state: IState = {
-    username: '',
     email: '',
-    passwordOne: '',
-    passwordTwo: '',
+    password: '',
+    userName: '',
     error: null,
   };
 
   render() {
-    const { username, email, passwordOne,
-      passwordTwo, error } = this.state;
-
-    const isInvalid = passwordOne
-      !== passwordTwo
-      || passwordOne === ''
-      || email === ''
-      || username === '';
-
+    const { error } = this.state;
+    const { authorized, email } = this.props;
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="username"
-          value={username}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Full Name"
-        />
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="passwordOne"
-          value={passwordOne}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
-        <input
-          name="passwordTwo"
-          value={passwordTwo}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Confirm Password"
-        />
-        <button disabled={isInvalid} type="submit">Sign Up</button>
-        {error && <p>{error.message}</p>}
-      </form>
+      <div className="sign-up">
+        <h1 className="sign-up__header">Регистрация</h1>
+        {authorized
+          && (
+            <div>
+              <p className="sing-up__text">Вы уже зарегестрированы.</p>
+              <p className="sing-up__text">
+                Ваш логин:
+                {email}
+              </p>
+              <Button
+                name="Сменить пользователя"
+                method={this.firebaseOut}
+              />
+            </div>
+          )}
+        {!authorized
+          && (
+            <div className="sign-up__form-wrapper">
+              <p className="sign-up__text">Заполните форму регистрации</p>
+              <form onSubmit={this.handleSignUp}>
+                <input
+                  className="sign-up__form-input"
+                  onChange={this.onChange}
+                  type="userName"
+                  name="userName"
+                  placeholder="Ваше имя"
+                />
+                <input
+                  className="sign-up__form-input"
+                  onChange={this.onChange}
+                  type="email"
+                  name="email"
+                  placeholder="Ваш email"
+                />
+                <input
+                  className="sign-up__form-input"
+                  onChange={this.onChange}
+                  type="password"
+                  name="password"
+                  placeholder="Ваш пароль"
+                />
+                <Button
+                  name="Зарегистрироваться"
+                />
+                {error && <p className="sign-up__text">{error.message}</p>}
+              </form>
+            </div>
+          )}
+      </div>
     );
   }
 
-  onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    const { firebase } = this.props;
-    const { username, email, passwordOne } = this.state;
+  firebaseOut = () => {
+    firebaseApp.auth().signOut();
+  };
 
-    firebase.doCreateUserWithEmailAndPassword(email, passwordOne)
-      .then(authUser => {
-        // Create a user in your Firebase realtime database
-        return firebase.user(authUser.user && authUser.user.uid)
-          .set({
-            username,
-            email,
-          });
-      }).then(() => {
-        this.setState({ ...INITIAL_STATE });
-        this.props.history.push(ROUTES.HOME);
-      }).catch(error => {
-        this.setState({ error });
+  handleSignUp = (event: React.FormEvent<HTMLFormElement>) => {
+    const { history } = this.props;
+    const { email, password, userName } = this.state;
+    firebaseApp.auth().createUserWithEmailAndPassword(email, password).then(authUser => {
+      firebaseApp.database().ref(`users/${authUser.user && authUser.user.uid}`).set({
+        email,
+        data: {
+          userName,
+          password,
+        },
       });
+      history.push(ROUTES.HOME);
+    }).catch(error => {
+      this.setState({ error });
+    });
     event.preventDefault();
   };
 
@@ -120,13 +113,16 @@ class SignUpFormBase extends React.Component<IProps> {
   };
 }
 
-const SignUpLink = () => (
-  <p>
-    Don&apos;t have an account?
-    <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
-  </p>
-);
+const putStateToProps = (state: any) => {
+  const { email, authorized, error, password } = state.root;
+  return {
+    email,
+    authorized,
+    error,
+    password,
+  };
+};
 
-const SignUpForm = withRouter(withFirebase(SignUpFormBase));
+const WrapperSignUp = connect(putStateToProps)(SingUp);
 
-export { SignUp, SignUpForm, SignUpLink };
+export { WrapperSignUp };

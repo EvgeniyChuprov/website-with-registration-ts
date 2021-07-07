@@ -1,0 +1,47 @@
+.sing-in {
+  text-align: center;
+  font-size: 2rem;
+
+  &__header {
+    @media screen and (max-width: 740px) {
+      font-size: 4rem;
+    }
+
+    @media screen and (max-width: 560px) {
+      font-size: 3rem;
+    }
+
+    @media screen and (max-width: 460px) {
+      font-size: 2rem;
+    }
+  }
+
+  &__text {
+    @media screen and (max-width: 560px) {
+      font-size: 1rem;
+    }
+  }
+
+  &__form-wrapper {
+    margin: 0 auto;
+    width: 60%;
+  }
+
+  &__form-input {
+    display: block;
+    margin: 2rem auto;
+    width: 60%;
+    outline: none;
+    border: none;
+    border-bottom: 0.2rem solid red;
+    font-size: 3rem;
+
+    @media screen and (max-width: 1040px) {
+      font-size: 1.5rem;
+    }
+
+    @media screen and (max-width: 740px) {
+      width: 100%;
+    }
+  }
+}

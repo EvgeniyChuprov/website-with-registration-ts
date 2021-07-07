@@ -1,0 +1,56 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import * as ROUTES from '../../constants/routes';
+import './style.scss';
+
+interface IProps {
+  authorized: boolean;
+}
+
+const Navigations = (props: IProps) => (
+  <ul className="navigations">
+    <li>
+      <Link to={ROUTES.LANDING}>
+        <span className="navigations__element">
+          Главная страница
+        </span>
+      </Link>
+    </li>
+    {props.authorized && (
+      <li>
+        <Link to={ROUTES.HOME}>
+          <span className="navigations__element">
+            Домашнаяя страница
+          </span>
+        </Link>
+      </li>
+    )}
+    <li>
+      <Link to={ROUTES.SING_UP}>
+        <span className="navigations__element">
+          Страница регистрации
+        </span>
+      </Link>
+    </li>
+    <li>
+      <Link to={ROUTES.SING_IN}>
+        <span className="navigations__element">
+          Старница входа
+        </span>
+      </Link>
+    </li>
+  </ul>
+)
+
+const putStateToProps = (state: any) => {
+  const { authorized } = state.root;
+  return {
+    authorized,
+  };
+};
+
+const WrapperNavigations = connect(putStateToProps)(Navigations);
+
+export { WrapperNavigations };

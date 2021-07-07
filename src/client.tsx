@@ -1,13 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
-import { AppPage } from 'core/App/index';
+import { App } from './core/App/index';
+import { firebaseApp } from './firebase/firebase';
+// import { store } from './reducers/store';
+import { combReducer } from './reducers/reducers';
 
-import { Firebase, FirebaseContext } from './services/Firebase';
+const store = createStore(combReducer);
 
-ReactDOM.hydrate(
-  <FirebaseContext.Provider value={new Firebase()}>
-    <AppPage />
-  </FirebaseContext.Provider>,
-  document.getElementById('root'),
+const FirebaseContext = React.createContext({});
+
+
+ReactDOM.render(
+  <Provider store={store}>
+    <FirebaseContext.Provider value={firebaseApp}>
+      <App />
+    </FirebaseContext.Provider>
+  </Provider>, document.getElementById('root'),
 );

@@ -1,0 +1,11 @@
+.navigations {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 2rem;
+  list-style-type: none;
+
+  &__element {
+    padding-left: 20px;
+    color: red;
+  }
+}
